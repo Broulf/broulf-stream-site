@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broulf's Livestream</title>
+  <style>
+    :root{
+      --header-height: 64px;
+      --gutter: 16px;
+      --video-width: 1340px;
+      --video-height: 753px;
+      --chat-width: 360px;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:#0f0f12;
+      color:#ddd;
+    }
+
+    /* header */
+    header{
+      height:var(--header-height);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:0 20px;
+      background:linear-gradient(180deg,#0b0b0d,#111);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      position:sticky; /* stay on top */
+      top:0;
+      z-index:20;
+    }
+    .logo{
+      font-weight:700;
+      letter-spacing:1px;
+      font-size:18px;
+      color:#fff;
+    }
+
+    /* page center column */
+    .page{
+      max-width:calc(var(--video-width) + var(--chat-width) + var(--gutter)*4);
+      margin: 20px auto;
+      padding:0 12px;
+      box-sizing:border-box;
+    }
+
+    /* layout: main + sidebar */
+    .layout{
+      display:flex;
+      gap:var(--gutter);
+      align-items:flex-start;
+      min-height:400px;
+    }
+
+    /* main column containing the video and info */
+    .main{
+      flex:0 0 var(--video-width);
+      box-sizing:border-box;
+    }
+
+    .video-wrap{
+      width:var(--video-width);
+      height:var(--video-height);
+      background:#000;
+      display:block;
+      border-radius:6px;
+      overflow:hidden;
+      box-shadow:0 6px 24px rgba(0,0,0,0.6);
+    }
+
+    .video-wrap iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    /* info section below the video — long so page scrolls */
+    .info{
+      margin-top:12px;
+      background:linear-gradient(180deg,#0d0d0f,#0b0b0d);
+      border-radius:6px;
+      padding:18px;
+      color:#cfcfcf;
+      line-height:1.5;
+    }
+
+    /* sidebar */
+    .sidebar{
+      width:var(--chat-width);
+      box-sizing:border-box;
+    }
+
+    /* sticky chat container */
+    .chat-card{
+      position:sticky;
+      top: calc(var(--header-height) + 12px); /* stays visible when scrolling */
+      height: calc(100vh - var(--header-height) - 24px);
+      background:#0b0b0d;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.03);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .chat-card .chat-header{
+      padding:12px;
+      font-weight:600;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    }
+
+    .chat{
+      padding:12px;
+      overflow:auto;
+      flex:1 1 auto;
+    }
+
+    .chat p{margin:6px 0;font-size:14px}
+
+    /* small responsive handling: scale layout down on smaller screens */
+    @media (max-width:1400px){
+      :root{ --video-width: 100%; --chat-width: 320px; }
+      .page{ max-width: 1200px; }
+      .main{ flex:1 1 auto; }
+      .video-wrap{ width:100%; height:auto; aspect-ratio: 1340 / 753; }
+    }
+
+    @media (max-width:900px){
+      .layout{ flex-direction:column; align-items:center; }
+      .sidebar{ width:100%; max-width:480px; }
+      .chat-card{ position:relative; top:0; height:auto; width:100%; }
+    }
+
+    /* small touches */
+    .muted{ color:#9aa0a6; font-size:13px }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Broulf's Stream</div>
+    <div class="muted">Broulf's Livestream Platform</div>
+  </header>
+
+  <main class="page">
+    <div class="layout">
+
+      <!-- main video + info -->
+      <section class="main">
+        <div class="video-wrap" id="player">
+          <!-- replace src with your embed -->
+          <iframe
+            src="https://stream.broulf.org/embed/video"
+            title="Owncast"
+            height="720px" width="1280px"
+            referrerpolicy="origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <div class="info" id="info">
+
+          <p>
+            I play CS:GO and any other FPS game I find enjoyable. I kinda suck at everything though.
+          </p>
+
+          <!-- lots of content to enable scrolling -->
+          <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc viverra, lectus vitae feugiat tincidunt, urna erat
+            aliquet justo, sit amet volutpat metus nibh vel urna. Integer faucibus sem vel mi sollicitudin, vitae feugiat arcu
+            vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed non
+            lectus sit amet magna pulvinar fermentum. Maecenas id nibh id urna pharetra vulputate. Suspendisse potenti. Donec
+            sed massa et arcu laoreet mollis. Curabitur bibendum risus eu magna vestibulum, nec feugiat nisi pretium.</p>
+
+            <p>... (repeat to create scroll) ...</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod, tortor vitae porttitor tincidunt, mi
+            orci egestas lectus, id finibus eros nunc nec sem. Integer ut rhoncus dui, vitae pretium orci. Mauris volutpat odio
+            non orci consequat, vel tincidunt arcu tristique.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc viverra, lectus vitae feugiat tincidunt, urna erat
+            aliquet justo, sit amet volutpat metus nibh vel urna. Integer faucibus sem vel mi sollicitudin, vitae feugiat arcu
+            vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed non
+            lectus sit amet magna pulvinar fermentum. Maecenas id nibh id urna pharetra vulputate. Suspendisse potenti. Donec
+            sed massa et arcu laoreet mollis. Curabitur bibendum risus eu magna vestibulum, nec feugiat nisi pretium.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc viverra, lectus vitae feugiat tincidunt, urna erat
+            aliquet justo, sit amet volutpat metus nibh vel urna. Integer faucibus sem vel mi sollicitudin, vitae feugiat arcu
+            vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed non
+            lectus sit amet magna pulvinar fermentum. Maecenas id nibh id urna pharetra vulputate. Suspendisse potenti. Donec
+            sed massa et arcu laoreet mollis. Curabitur bibendum risus eu magna vestibulum, nec feugiat nisi pretium.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc viverra, lectus vitae feugiat tincidunt, urna erat
+            aliquet justo, sit amet volutpat metus nibh vel urna. Integer faucibus sem vel mi sollicitudin, vitae feugiat arcu
+            vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed non
+            lectus sit amet magna pulvinar fermentum. Maecenas id nibh id urna pharetra vulputate. Suspendisse potenti. Donec
+            sed massa et arcu laoreet mollis. Curabitur bibendum risus eu magna vestibulum, nec feugiat nisi pretium.</p>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- sidebar chat -->
+      <aside class="sidebar">
+        <div class="chat-card" aria-label="Chat">
+          <iframe id="twitch-chat-embed"
+            src="https://www.twitch.tv/embed/twitchdev/chat?parent=live.broulf.org"
+            height="100%"
+            width="350">
+          </iframe>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <script>
+    // small helper: if you want to resize the iframe dynamically, you can do that here.
+    // For now, the layout uses a fixed 1340x753 player on wide screens and keeps aspect-ratio on smaller screens.
+
+    // Example: replace embed on button click (uncomment to use)
+    // function setEmbed(src){ document.querySelector('#player iframe').src = src; }
+  </script>
+</body>
+</html>
